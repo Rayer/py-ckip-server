@@ -3,3 +3,5 @@ gdown
 numpy
 flask
 ckiptagger
+monpa
+torch

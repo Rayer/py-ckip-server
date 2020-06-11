@@ -1,9 +1,10 @@
 from flask import Flask, jsonify, request
 from CkipWrapper import CkipWrapper
+from MonpaWrapper import MonpaWrapper
 
 app = Flask(__name__)
-ckip = CkipWrapper("/tmp")
-
+# ckip = CkipWrapper("/tmp")
+monpa = MonpaWrapper()
 
 @app.route('/', methods=["GET", "POST"])
 def parse():
@@ -13,7 +14,7 @@ def parse():
     if 'sentences' not in payload and 'sentences_with_keys':
         return jsonify({'response': 'No sentences nor sentence_with_keys attribute are found!'})
 
-    ws_list = ckip.handle_sentences(payload['sentences'])
+    ws_list = monpa.handle_sentences(payload['sentences'])
 
     return jsonify({'response': ws_list})
 
