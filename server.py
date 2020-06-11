@@ -1,10 +1,9 @@
 from flask import Flask, jsonify, request
-from CkipWrapper import CkipWrapper
 from MonpaWrapper import MonpaWrapper
 
 app = Flask(__name__)
-# ckip = CkipWrapper("/tmp")
 monpa = MonpaWrapper()
+
 
 @app.route('/', methods=["GET", "POST"])
 def parse():
@@ -16,6 +15,7 @@ def parse():
 
     ws_list_1 = None
     ws_list_2 = None
+
     if 'sentences' in payload:
         ws_list_1 = monpa.handle_sentences(payload['sentences'])
 
@@ -25,9 +25,11 @@ def parse():
     # Sentences with keys have higher property
     return jsonify({'response': ws_list_2 if ws_list_1 is None else ws_list_1})
 
+
 @app.route('/health')
 def healthCheck():
     return 'healthy!'
+
 
 if __name__ == '__main__':
     app.run(port=9000)
