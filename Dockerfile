@@ -1,7 +1,15 @@
-FROM python:3.7
+FROM python:3.7 as base
 MAINTAINER rayer@vista.aero
-WORKDIR /app
+FROM base as builder
+
+RUN mkdir /install
+COPY requirements.txt /install
+WORKDIR /install
+RUN pip install --prefix="/install" -r requirements.txt
+
+FROM base
+COPY --from=builder /install /usr/local
 COPY . /app
-RUN pip install -r requirements.txt
+WORKDIR /app
 EXPOSE 8000
 CMD ["python", "server.py"]
