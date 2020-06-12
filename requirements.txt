@@ -3,3 +3,4 @@ flask
 ckiptagger
 monpa
 torch
+six
