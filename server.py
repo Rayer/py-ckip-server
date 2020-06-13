@@ -15,12 +15,16 @@ def parse():
 
     ws_list_1 = None
     ws_list_2 = None
+    export_with_pos = True
+
+    if 'export_with_pos' in payload:
+        export_with_pos = payload['export_with_pos']
 
     if 'sentences' in payload:
-        ws_list_1 = monpa.handle_sentences(payload['sentences'])
+        ws_list_1 = monpa.handle_sentences(payload['sentences'], export_with_pos=export_with_pos)
 
     if 'sentence_with_keys' in payload:
-        ws_list_2 = monpa.handle_sentences_with_keys(payload['sentence_with_keys'])
+        ws_list_2 = monpa.handle_sentences_with_keys(payload['sentence_with_keys'], export_with_pos=export_with_pos)
 
     # Sentences with keys have higher property
     return jsonify({'response': ws_list_2 if ws_list_1 is None else ws_list_1})
