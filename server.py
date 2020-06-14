@@ -1,9 +1,19 @@
 from flask import Flask, jsonify, request
 from MonpaWrapper import MonpaWrapper
+import logging
 
 app = Flask(__name__)
 monpa = MonpaWrapper()
 
+LOGGING_FORMAT = '%(asctime)s %(levelname)s: %(message)s'
+DATE_FORMAT = '%Y%m%d %H:%M:%S'
+logging.basicConfig(level=logging.DEBUG, format=LOGGING_FORMAT, datefmt=DATE_FORMAT)
+
+logging.debug('Hello debug!')
+logging.info('Hello info!')
+logging.warning('Hello warning!')
+logging.error('Hello error!')
+logging.critical('Hello critical!')
 
 @app.route('/', methods=["GET", "POST"])
 def parse():

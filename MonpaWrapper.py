@@ -1,5 +1,5 @@
 import monpa
-
+import logging
 
 class MonpaWrapper:
     def __init__(self):
@@ -24,6 +24,7 @@ class MonpaWrapper:
         return ret
     
     def handle_single_sentence(self, s, filter_pos_symbols, export_with_pos):
+        logging.info("Processing : " + s)
         section = monpa.pseg(s)
         analyzed = []
         for (w, p) in section:
