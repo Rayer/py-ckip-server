@@ -4,3 +4,4 @@ ckiptagger
 monpa
 torch
 six
+tensorflow==1.15.2

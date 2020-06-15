@@ -1,7 +1,9 @@
 import logging
+import abc
+from collections import OrderedDict
 
 
-class Engine:
+class Engine(metaclass=abc.ABCMeta):
 
     @staticmethod
     def get_filter_pos_symbols():
@@ -10,26 +12,20 @@ class Engine:
                 "DE", "SHI", "COLONCATEGORY", "Cbb", "Caa", "Cab", "Cba", "Nh", "Nf"]
 
     def handle_sentences(self, sentences: [], filter_pos_symbols: bool = True, export_with_pos: bool = True):
-        ret = []
-        for s in sentences:
-            ret += self.handle_single_sentence(s, filter_pos_symbols, export_with_pos)
-        return ret
+        return self.handle_sentences_impl(sentences, filter_pos_symbols, export_with_pos)
+
+    @abc.abstractmethod
+    def handle_sentences_impl(self, sentences: [], filter_pos_symbols: bool = True, export_with_pos: bool = True):
+        return NotImplemented
 
     def handle_sentences_with_keys(self, payload, filter_pos_symbols=True, export_with_pos=True):
         ret = []
-        for rec in payload:
-            ret.append({'key': rec['key'],
-                        'result': self.handle_single_sentence(rec['sentence'], filter_pos_symbols, export_with_pos)})
-        return ret
+        input_sentences = []
+        for p in payload:
+            input_sentences.append(p["sentence"])
 
-    def handle_single_sentence(self, s, filter_pos_symbols, export_with_pos):
-        logging.info("Processing : " + s)
-        section = monpa.pseg(s)
-        analyzed = []
-        for (w, p) in section:
-            if not filter_pos_symbols or p not in self.get_filter_pos_symbols():
-                if export_with_pos:
-                    analyzed.append((w, p))
-                else:
-                    analyzed.append(w)
-        return analyzed
+        result = self.handle_sentences(input_sentences, filter_pos_symbols, export_with_pos)
+        for index in range(0, len(payload)):
+            ret.append({'key': payload[index]['key'], 'result': result[index]})
+
+        return ret
