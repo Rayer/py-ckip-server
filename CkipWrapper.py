@@ -1,6 +1,6 @@
 import os
 
-from ckiptagger import data_utils, WS, POS, NER
+from ckiptagger import data_utils, WS, POS, NER, construct_dictionary
 from Engine import Engine
 
 
@@ -14,13 +14,14 @@ class CkipEngine(Engine):
         self.ws = WS(dict_path + "/data")
         self.pos = POS(dict_path + "/data")
         self.ner = NER(dict_path + "/data")
+        # construct_dictionary({})
 
     def handle_sentences_impl(self, sentences: [], filter_pos_symbols: bool = True, export_with_pos: bool = True):
         word_sentence_list = self.ws(sentences)
         pos_sentence_list = None
         ret = []
         if filter_pos_symbols or export_with_pos:
-            pos_sentence_list = self.pos(sentences)
+            pos_sentence_list = self.pos(word_sentence_list)
 
 
         # Process per sentence
