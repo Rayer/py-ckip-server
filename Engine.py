@@ -12,6 +12,7 @@ class Engine(metaclass=abc.ABCMeta):
                 "DE", "SHI", "COLONCATEGORY", "Cbb", "Caa", "Cab", "Cba", "Nh", "Nf"]
 
     def handle_sentences(self, sentences: [], filter_pos_symbols: bool = True, export_with_pos: bool = True):
+        print("Handling this quest with Engine : " + self.__class__.__qualname__)
         return self.handle_sentences_impl(sentences, filter_pos_symbols, export_with_pos)
 
     @abc.abstractmethod

@@ -3,11 +3,11 @@ import logging
 from Engine import Engine
 
 
-class MonpaWrapper(Engine):
+class MonpaEngine(Engine):
     def __init__(self):
         pass
 
-    def handle_sentences_impl(self, sentences, filter_pos_symbols, export_with_pos):
+    def handle_sentences_impl(self, sentences: [], filter_pos_symbols: bool = True, export_with_pos: bool = True):
         ret = []
         for s in sentences:
             logging.info("Processing : " + s)
